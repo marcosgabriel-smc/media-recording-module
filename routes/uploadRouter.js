@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const now = new Date();
         const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-        cb(null, `audio-${timestamp}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}-${timestamp}${path.extname(file.originalname)}`);
     }
 });
 
@@ -33,7 +33,31 @@ router.post('/upload-audio', upload.single('audio'), (req, res) => {
     // File information is available in req.file
     console.log('File received:', req.file);
 
-    res.json({ message: 'File uploaded successfully'});
+    res.json({ message: 'File uploaded successfully' });
+});
+
+// Handle video file upload
+router.post('/upload-video', upload.single('video'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    // File information is available in req.file
+    console.log('File received:', req.file);
+
+    res.json({ message: 'File uploaded successfully' });
+});
+
+// Handle photo file upload
+router.post('/upload-photo', upload.single('photo'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    // File information is available in req.file
+    console.log('File received:', req.file);
+
+    res.json({ message: 'File uploaded successfully' });
 });
 
 module.exports = router;
