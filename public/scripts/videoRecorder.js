@@ -14,7 +14,8 @@ const videoRecorder = {
             return;
         }
 
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        // If only video is necessary, disable audio true. 
             .then(stream => {
                 mediaRecorder = new MediaRecorder(stream);
                 videoChunks = [];
