@@ -5,7 +5,7 @@ const uploadRouter = require('./routes/uploadRouter');
 
 const app = express();
 
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+app.use(express.static('public'));
 
 app.use('/api', uploadRouter);
 

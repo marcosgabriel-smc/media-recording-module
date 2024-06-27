@@ -33,15 +33,15 @@ const audioRecorder = {
                     audioUrl = URL.createObjectURL(audioBlob);
 
                     // Re-enable start button and enable download and play buttons
-                    document.getElementById('start-record-btn').disabled = false;
-                    document.getElementById('download-record-btn').disabled = false;
-                    document.getElementById('play-record-btn').disabled = false;
-                    document.getElementById('upload-record-btn').disabled = false;
+                    document.getElementById('start-audio-record-btn').disabled = false;
+                    document.getElementById('download-audio-btn').disabled = false;
+                    document.getElementById('play-audio-btn').disabled = false;
+                    document.getElementById('upload-audio-btn').disabled = false;
                 };
 
                 mediaRecorder.start();
-                document.getElementById('start-record-btn').disabled = true;
-                document.getElementById('stop-record-btn').disabled = false;
+                document.getElementById('start-audio-record-btn').disabled = true;
+                document.getElementById('stop-audio-record-btn').disabled = false;
             })
             .catch(error => {
                 console.error('Error accessing the microphone:', error);
@@ -55,7 +55,7 @@ const audioRecorder = {
     stop: function () {
         if (mediaRecorder && mediaRecorder.state !== 'inactive') {
             mediaRecorder.stop();
-            document.getElementById('stop-record-btn').disabled = true;
+            document.getElementById('stop-audio-record-btn').disabled = true;
         } else {
             console.error('No recording is in progress.');
             alertMessage('No recording is in progress.')
@@ -130,4 +130,4 @@ function alertMessage(message) {
     alert(message);
 }
 
-export default audioRecorder;
+export default audioRecorder

@@ -4,42 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media Recording Module</title>
+    <link rel="stylesheet" href="/stylesheet/main.css">
 </head>
 <body>
     <h1>Simple Media Recording</h1>
 
-    <video id="webcam-stream" style="display: none;" width="640" height="480" autoplay></video>
     <button id="initialize-webcam-btn">Initialize Webcam</button>
-
-    <!-- Audio Controls -->
-    <h2>Audio Controls</h2>
-    <div>
-        <button id="start-audio-record-btn">Start Audio Recording</button>
-        <button id="stop-audio-record-btn" disabled>Stop Audio Recording</button>
-        <button id="download-audio-btn" disabled>Download Audio</button>
-        <button id="play-audio-btn" disabled>Play Audio</button>
-        <button id="upload-audio-btn" disabled>Upload Audio</button>
+    <div class="webcam-container">
+        <video id="webcam-stream" style="display: none;" width="640" height="480" autoplay></video>
     </div>
 
-    <!-- Video Controls -->
-    <h2>Video Controls</h2>
-    <div>
-        <button id="start-video-record-btn">Start Video Recording</button>
-        <button id="stop-video-record-btn" disabled>Stop Video Recording</button>
-        <button id="download-video-btn" disabled>Download Video</button>
-        <button id="play-video-btn" disabled>Play Video</button>
-        <button id="upload-video-btn" disabled>Upload Video</button>
+    <div class="controls-container">
+        <!-- Audio Controls -->
+        <h2>Audio Controls</h2>
+        <div>
+            <button id="start-audio-record-btn">Start Audio Recording</button>
+            <button id="stop-audio-record-btn" disabled>Stop Audio Recording</button>
+            <button id="download-audio-btn" disabled>Download Audio</button>
+            <button id="play-audio-btn" disabled>Play Audio</button>
+            <button id="upload-audio-btn" disabled>Upload Audio</button>
+        </div>
+
+        <!-- Video Controls -->
+        <h2>Video Controls</h2>
+        <div>
+            <button id="start-video-record-btn">Start Video Recording</button>
+            <button id="stop-video-record-btn" disabled>Stop Video Recording</button>
+            <button id="download-video-btn" disabled>Download Video</button>
+            <button id="play-video-btn" disabled>Play Video</button>
+            <button id="upload-video-btn" disabled>Upload Video</button>
+        </div>
+
+        <!-- Photo Controls -->
+        <h2>Photo Controls</h2>
+        <div>
+            <button id="capture-photo-btn">Capture Photo</button>
+            <button id="download-photo-btn" disabled>Download Photo</button>
+            <button id="upload-photo-btn" disabled>Upload Photo</button>
+            <img id="captured-photo" style="display: none;" />
+        </div>
     </div>
 
-    <!-- Photo Controls -->
-    <h2>Photo Controls</h2>
-    <div>
-        <button id="capture-photo-btn">Capture Photo</button>
-        <button id="download-photo-btn" disabled>Download Photo</button>
-        <button id="upload-photo-btn" disabled>Upload Photo</button>
-        <img id="captured-photo" style="display: none;" />
-    </div>
-
-    <script src="./scripts/buttons.js" type="module"></script>
+    <script src="/scripts/buttons.js" type="module"></script>
 </body>
 </html>
