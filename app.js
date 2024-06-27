@@ -1,15 +1,18 @@
 const express = require('express');
+const path = require('path');
 
+const uploadRouter = require('./routes/uploadRouter');
 
 const app = express();
 
-app.use(express.static('./scripts'));
+app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 
+app.use('/api', uploadRouter);
 
-app.use('/', (req, res) => {
-    res.sendFile('./index.html')
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(3000, () => {
-    console.log(`Server is running on port http://localhost:3000`);
+    console.log(`Server is running on http://localhost:3000`);
 });

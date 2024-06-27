@@ -24,10 +24,19 @@ const audioRecorder = {
 
                 mediaRecorder.onstop = () => {
                     audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
+                    // Revoke any previously created URL to avoid memory leaks
+                    if (audioUrl) {
+                        URL.revokeObjectURL(audioUrl);
+                    }
+
                     audioUrl = URL.createObjectURL(audioBlob);
+
+                    // Re-enable start button and enable download and play buttons
                     document.getElementById('start-record-btn').disabled = false;
                     document.getElementById('download-record-btn').disabled = false;
                     document.getElementById('play-record-btn').disabled = false;
+                    document.getElementById('upload-record-btn').disabled = false;
                 };
 
                 mediaRecorder.start();
@@ -36,7 +45,7 @@ const audioRecorder = {
             })
             .catch(error => {
                 console.error('Error accessing the microphone:', error);
-                showErrorMessage('Erro ao acessar o microfone.');
+                alertMessage('Erro ao acessar o microfone.');
             });
     },
 
@@ -49,6 +58,7 @@ const audioRecorder = {
             document.getElementById('stop-record-btn').disabled = true;
         } else {
             console.error('No recording is in progress.');
+            alertMessage('No recording is in progress.')
         }
     },
 
@@ -56,7 +66,7 @@ const audioRecorder = {
      * Download the recorded audio
      */
     download: function () {
-        if (audioChunks.length > 0) {
+        if (audioChunks.length > 0) {            
             const link = document.createElement('a');
             link.href = audioUrl;
             link.download = 'recording.wav';
@@ -65,7 +75,7 @@ const audioRecorder = {
             document.body.removeChild(link);
         } else {
             console.error('No audio data available for download.');
-            showErrorMessage('Nenhum dado de áudio disponível para download.');
+            alertMessage('Nenhum dado de áudio disponível para download.');
         }
     },
 
@@ -78,32 +88,46 @@ const audioRecorder = {
             audio.play();
         } else {
             console.error('No audio data available for playback.');
-            showErrorMessage('Nenhum dado de áudio disponível para reprodução.');
+            alertMessage('Nenhum dado de áudio disponível para reprodução.');
+        }
+    },
+
+    /**
+     * Upload the recorded audio to the server
+     */
+    upload: async function () {
+        if (audioChunks.length > 0) {
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'recording.wav');
+
+            try {
+                const response = await fetch('/api/upload-audio', {
+                    method: 'POST',
+                    body: formData,
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Upload successful:', result);
+                    alertMessage('Upload successful');
+                } else {
+                    console.error('Error during fetch /upload');
+                    alertMessage('Tente novamente.');
+                }
+                
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                alertMessage('Erro salvando o arquivo de áudio.');
+            }
+        } else {
+            console.error('No audio data available for upload.');
+            alertMessage('Nenhum dado de áudio disponível para upload.');
         }
     }
 };
 
-document.getElementById('start-record-btn').addEventListener('click', () => {
-    document.getElementById('error-message').style.display = 'none';
-    audioRecorder.start();
-});
-
-document.getElementById('stop-record-btn').addEventListener('click', () => {
-    audioRecorder.stop();
-});
-
-document.getElementById('download-record-btn').addEventListener('click', () => {
-    audioRecorder.download();
-});
-
-document.getElementById('play-record-btn').addEventListener('click', () => {
-    audioRecorder.play();
-});
-
-function showErrorMessage(message) {
-    const errorMessageElement = document.getElementById('error-message');
-    errorMessageElement.textContent = message;
-    errorMessageElement.style.display = 'block';
+function alertMessage(message) {
+    alert(message);
 }
 
 export default audioRecorder;
