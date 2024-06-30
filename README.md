@@ -35,6 +35,48 @@ The server will run on `http://localhost:3000`.
 
 Open your browser and navigate to `http://localhost:3000`. You will see a simple interface with buttons to start recording audio/video, stop recording, play the recording, download the recording, and upload the recording, as well as take photos.
 
+## How Does It Work?
+
+The media capture functionality operates within the browser environment, utilizing the `navigator` object, specifically the `mediaDevices` API. This API allows access to input devices like the microphone and camera.
+
+### Media Capture Process
+
+1. **Checking Device Availability**:
+   Before capturing media, we first verify the availability of the microphone or camera. This ensures the device permissions are granted and the devices are accessible.
+
+2. **Capturing Audio/Video**:
+   Once access to the media devices is confirmed, we use the `getUserMedia` method to capture audio and video streams. The logic for capturing **audio and video** involves:
+
+   - **Streaming**: We capture the media stream and pass it to a `MediaRecorder` instance.
+   - **Chunk Recording**: As the recording progresses, data is collected in chunks. These chunks are pushed into an array using the `ondataavailable` event of `MediaRecorder`.
+   - **Blob Creation**: After recording, we compile the chunks into a `Blob`.
+
+   **What is a Blob?**
+   A `Blob` (Binary Large Object) is an object representing immutable raw data. In our context, it serves as a container for the recorded audio or video data, storing it as binary data.
+
+3. **Creating a URL Object**:
+   From the `Blob`, we generate a URL object using `URL.createObjectURL()`.
+
+   **What is a URL Object?**
+   A URL object is a temporary URL representing the `Blob` data. It allows us to reference the recorded media in the browser, making it accessible for playback or download without uploading it to a server.
+
+4. **Playing, Downloading, or Uploading**:
+   The URL object enables us to:
+   - **Play**: Directly play the media in the browser.
+   - **Download**: Provide a link for users to download the media.
+   - **Upload**: Send the media to a server.
+
+### Capturing Photos
+
+For **photos**, the process differs slightly:
+- We do not record chunks of data. Instead, we capture a single frame from the video stream.
+- This is done using a `<canvas>` element, where the frame is drawn and then converted into a `Blob`.
+- This approach allows us to quickly capture an image without continuous data recording.
+
+### Uploading Media
+
+For the upload process, we use the `fetch` API to send a POST request to our upload endpoint. The media data (photo, audio, or video) is included in the request body as a `FormData` object, which allows us to easily handle binary data on the server side.
+
 <details>
   <summary>Audio Recording</summary>
 
@@ -81,22 +123,36 @@ Open your browser and navigate to `http://localhost:3000`. You will see a simple
 ├── index.html
 ├── package-lock.json
 ├── package.json
+├── public
+│   ├── scripts
+│   │   ├── audioRecorder.js
+│   │   ├── buttons.js
+│   │   ├── initializeWebcam.js
+│   │   ├── photoCapture.js
+│   │   └── videoRecorder.js
+│   └── stylesheet
+│       └── main.css
 ├── routes
 │   └── uploadRouter.js
-├── scripts
-│   ├── audioRecorder.js
-│   └── buttons.js
 └── uploads
+
 ````
 
+- **README.md**: Documentation file containing details about the project.
 - **app.js**: The main server file that sets up the Express server and routes.
-- **index.html**: The frontend HTML file that contains the UI.
-- **routes/uploadRouter.js**: The router handling file uploads.
-- **scripts/audioRecorder.js**: JavaScript file containing the audio recording logic.
-- **scripts/videoRecorder.js**: JavaScript file containing the video recording logic.
-- **scripts/photoCapture.js**: JavaScript file containing the photo capture logic.
-- **scripts/buttons.js**: JavaScript file containing the button event handlers.
-- **uploads**: Directory where uploaded files are stored.
+- **index.html**: The frontend HTML file that contains the user interface.
+- **package-lock.json**: Automatically generated file that describes the exact dependency tree.
+- **package.json**: Lists project dependencies and metadata.
+- **public/scripts**:
+  - **audioRecorder.js**: JavaScript file containing the logic for audio recording.
+  - **buttons.js**: JavaScript file containing button event handlers for media actions.
+  - **initializeWebcam.js**: JavaScript file for initializing the webcam stream.
+  - **photoCapture.js**: JavaScript file containing the logic for capturing photos.
+  - **videoRecorder.js**: JavaScript file containing the logic for video recording.
+- **public/stylesheet/main.css**: Stylesheet for styling the frontend UI.
+- **routes/uploadRouter.js**: Router for handling file uploads (audio, video, photo).
+- **uploads**: Directory where uploaded media files are stored.
+
 
 ## API Endpoints
 
