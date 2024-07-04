@@ -7,6 +7,17 @@ h2 {
   text-align: center;
 }
 
+button {
+  margin-right: 10px;
+}
+
+video,
+img {
+  border: 1px solid black;
+  display: block;
+  margin: 10px;
+}
+
 .webcam-container,
 .controls-container {
   display: flex;
@@ -22,15 +33,4 @@ h2 {
 
 .controls-container div {
   margin-bottom: 10px;
-}
-
-button {
-  margin-right: 10px;
-}
-
-video,
-img {
-  border: 1px solid black;
-  display: block;
-  margin: 10px;
 }

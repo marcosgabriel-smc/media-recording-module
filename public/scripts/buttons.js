@@ -82,6 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Webcam initialization event listener
   initializeWebcamButton.addEventListener("click", () => {
     initializeWebcam.start();
-    initializeWebcamButton.disabled = true;
+    initializeWebcamButton.remove();
   });
 });
