@@ -1,32 +1,36 @@
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-h1, h2 {
-    text-align: center;
+h1,
+h2 {
+  text-align: center;
 }
 
-.webcam-container, .controls-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+.webcam-container,
+.controls-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  flex-direction: column;
 }
 
 .controls-container {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .controls-container div {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
-video, img {
-    border: 1px solid black;
-    display: block;
-    margin: 0 auto;
+video,
+img {
+  border: 1px solid black;
+  display: block;
+  margin: 10px;
 }
